@@ -1,0 +1,23 @@
+{% extends 'ManageCash/base.html' %}
+{% block title %}Profile | ManageCash{% endblock %}
+{% block content %}
+<section class="form-box">
+  <h1>Profile</h1>
+  <p class="muted">Update your account details.</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" name="username" id="username" value="{{ user.username }}" maxlength="150" autocomplete="username" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email <span class="optional">(optional)</span></label>
+      <input type="email" name="email" id="email" value="{{ user.email }}" autocomplete="email">
+    </div>
+    <div class="actions">
+      <button class="button" type="submit">Save Changes</button>
+      <a class="button button-secondary" href="{% url 'dashboard' %}">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

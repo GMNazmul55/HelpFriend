@@ -1,0 +1,23 @@
+{% extends 'ManageCash/base.html' %}
+{% block title %}Edit Expense Entry | ManageCash{% endblock %}
+{% block content %}
+<section class="form-box">
+  <h1>Edit Expense Entry</h1>
+  <p class="muted">Update the details of this expense entry.</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="description">Description</label>
+      <input type="text" name="description" id="description" value="{{ expense.description }}" maxlength="255" required>
+    </div>
+    <div class="form-group">
+      <label for="amount">Amount</label>
+      <input type="number" name="amount" id="amount" value="{{ expense.amount }}" step="0.01" required>
+    </div>
+    <div class="actions">
+      <button class="button" type="submit">Save Changes</button>
+      <a class="button button-secondary" href="{% url 'dashboard' %}">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

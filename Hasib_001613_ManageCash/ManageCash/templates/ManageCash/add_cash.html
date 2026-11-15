@@ -1,0 +1,27 @@
+{% extends 'ManageCash/base.html' %}
+{% block title %}Add Cash | ManageCash{% endblock %}
+{% block content %}
+<section class="form-box">
+  <h1>Add Cash</h1>
+  <p class="muted">Record money you have received.</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="source">Source</label>
+      <input type="text" name="source" id="source" value="{{ request.POST.source }}" maxlength="200" placeholder="e.g. Salary" required>
+    </div>
+    <div class="form-group">
+      <label for="amount">Amount</label>
+      <input type="number" name="amount" id="amount" value="{{ request.POST.amount }}" step="0.01" placeholder="0.00" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Description <span class="optional">(optional)</span></label>
+      <textarea name="description" id="description" rows="3">{{ request.POST.description }}</textarea>
+    </div>
+    <div class="actions">
+      <button class="button" type="submit">Add Cash</button>
+      <a class="button button-secondary" href="{% url 'dashboard' %}">Cancel</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

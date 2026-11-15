@@ -1,0 +1,46 @@
+{% extends 'ManageCash/base.html' %}
+{% block title %}Transactions | ManageCash{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">Your activity</p>
+    <h1>All Transactions</h1>
+    <p class="muted">Your income and expenses, with the latest entries first.</p>
+  </div>
+  <a class="button button-secondary" href="{% url 'dashboard' %}">Back to Dashboard</a>
+</div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="All transactions">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+        <th scope="col">Description</th>
+        <th scope="col" class="number">Amount</th>
+        <th scope="col">Date</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for it in items %}
+        <tr>
+          <td><span class="entry-type">{{ it.type|capfirst }}</span></td>
+          <td>{% if it.type == 'income' %}{{ it.source }}{% if it.description %}<span class="detail">{{ it.description }}</span>{% endif %}{% else %}{{ it.description }}{% endif %}</td>
+          <td class="number">{{ it.amount|floatformat:2 }}</td>
+          <td class="date">{{ it.datetime|date:"d M Y, H:i" }}</td>
+          <td class="row-actions">
+            {% if it.type == 'income' %}
+              <a href="{% url 'edit_cash' it.id %}">Edit</a>
+              <a class="delete-link" href="{% url 'delete_cash' it.id %}">Delete</a>
+            {% else %}
+              <a href="{% url 'edit_expense' it.id %}">Edit</a>
+              <a class="delete-link" href="{% url 'delete_expense' it.id %}">Delete</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td class="empty-state" colspan="5">No transactions yet. <a href="{% url 'add_cash' %}">Add your first cash entry</a>.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

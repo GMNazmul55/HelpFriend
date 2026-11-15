@@ -1,0 +1,32 @@
+Job portal
+---------------------------
+
+
+python3 --version
+
+python3 -m venv .venv
+source .venv/bin/activate
+
+
+sudo apt update
+sudo apt install python3-venv python3-pip
+
+
+python -m pip install "Django>=6.0.5,<6.1"
+python -m pip install --upgrade Pillow
+
+
+mkdir -p static
+
+
+python manage.py check
+python manage.py migrate
+python manage.py runserver
+
+
+
+
+next time run
+
+source .venv/bin/activate
+python manage.py runserver

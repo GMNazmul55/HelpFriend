@@ -1,0 +1,67 @@
+{% extends 'ManageCash/base.html' %}
+{% block title %}Dashboard | ManageCash{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div>
+    <p class="eyebrow">Overview</p>
+    <h1>Dashboard</h1>
+    <p class="muted">A clear view of what comes in and what goes out.</p>
+  </div>
+  <div class="actions">
+    <a class="button" href="{% url 'add_cash' %}">Add Cash</a>
+    <a class="button button-secondary" href="{% url 'add_expense' %}">Add Expense</a>
+  </div>
+</div>
+<div class="summary">
+  <div class="summary-box">
+    <h2>Total Income</h2>
+    <p>{{ total_cash|floatformat:2 }}</p>
+  </div>
+  <div class="summary-box">
+    <h2>Total Expense</h2>
+    <p>{{ total_expense|floatformat:2 }}</p>
+  </div>
+  <div class="summary-box">
+    <h2>Balance</h2>
+    <p>{{ balance|floatformat:2 }}</p>
+  </div>
+</div>
+<div class="section-heading">
+  <h2>Recent Transactions</h2>
+  <a href="{% url 'transactions' %}">View all</a>
+</div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Recent transactions">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Type</th>
+        <th scope="col">Description</th>
+        <th scope="col" class="number">Amount</th>
+        <th scope="col">Date</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in entries %}
+        <tr>
+          <td><span class="entry-type">{{ e.type|capfirst }}</span></td>
+          <td>{% if e.type == 'income' %}{{ e.source }}{% if e.description %}<span class="detail">{{ e.description }}</span>{% endif %}{% else %}{{ e.description }}{% endif %}</td>
+          <td class="number">{{ e.amount|floatformat:2 }}</td>
+          <td class="date">{{ e.datetime|date:"d M Y, H:i" }}</td>
+          <td class="row-actions">
+            {% if e.type == 'income' %}
+              <a href="{% url 'edit_cash' e.id %}">Edit</a>
+              <a class="delete-link" href="{% url 'delete_cash' e.id %}">Delete</a>
+            {% else %}
+              <a href="{% url 'edit_expense' e.id %}">Edit</a>
+              <a class="delete-link" href="{% url 'delete_expense' e.id %}">Delete</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td class="empty-state" colspan="5">No transactions yet. <a href="{% url 'add_cash' %}">Add your first cash entry</a>.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
