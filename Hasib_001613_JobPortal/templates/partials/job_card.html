@@ -1,0 +1,15 @@
+<article class="job-card">
+  <div class="job-card-heading">
+    <div class="company-logo">
+      {% if job.company_logo %}<img src="{{ job.company_logo.url }}" alt="{{ job.recruiter.recruiterprofile.company_name|default:'Company' }} logo" loading="lazy">{% else %}<span aria-hidden="true">{{ job.recruiter.recruiterprofile.company_name|default:"Company"|first|upper }}</span>{% endif %}
+    </div>
+    <div>
+      <h3><a href="{% url 'job_detail' job.id %}">{{ job.title }}</a></h3>
+      <p class="company-name">{{ job.recruiter.recruiterprofile.company_name|default:"Company" }}</p>
+    </div>
+  </div>
+  <div class="job-meta"><span class="entry-type">{{ job.category }}</span><span>{{ job.openings }} opening{{ job.openings|pluralize }}</span></div>
+  <p class="job-description">{{ job.description|truncatechars:150 }}</p>
+  <p class="job-skills"><span>Skills</span>{{ job.skills }}</p>
+  <div class="job-card-footer"><span>Posted {{ job.created_at|date:"d M Y" }}</span><a href="{% url 'job_detail' job.id %}">View Details</a></div>
+</article>

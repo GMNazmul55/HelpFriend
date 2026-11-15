@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Home | Hasib_001613_JobPortal{% endblock %}
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">A place for your next step</p>
+  <h1>Find your next<br>opportunity.</h1>
+  <p class="muted">Explore open roles, match your skills and keep your applications in one place.</p>
+</section>
+<div class="search-panel">
+  <form method="get" class="search-form" role="search">
+    <label class="sr-only" for="home-search">Search jobs</label>
+    <input id="home-search" type="search" name="q" value="{{ query }}" placeholder="Search by role, skill or keyword">
+    <button class="button" type="submit">Search Jobs</button>
+  </form>
+</div>
+{% if show_skill_match and matched_jobs %}
+<section class="content-section">
+  <div class="section-heading"><h2>Recommended for You</h2><a href="{% url 'job_list' %}?view=matched">All skill matches</a></div>
+  <div class="job-grid">{% for job in matched_jobs %}{% include 'partials/job_card.html' %}{% endfor %}</div>
+</section>
+{% endif %}
+<section class="content-section">
+  <div class="section-heading"><h2>{% if query %}Search Results{% else %}Open Positions{% endif %}</h2><span class="muted small">{{ jobs|length }} role{{ jobs|length|pluralize }}</span></div>
+  <div class="job-grid">
+    {% for job in jobs %}{% include 'partials/job_card.html' %}{% empty %}
+      <div class="empty-panel"><h3>No jobs found</h3><p>{% if query %}No results for “{{ query }}”. Try another keyword.{% else %}New opportunities will appear here when recruiters post them.{% endif %}</p>{% if query %}<a class="button button-secondary" href="{% url 'home' %}">Clear Search</a>{% endif %}</div>
+    {% endfor %}
+  </div>
+</section>
+{% if not user.is_authenticated %}
+<section class="callout"><div><h2>Your next step starts here.</h2><p>Create an account to apply for jobs or find people for your team.</p></div><a class="button button-secondary" href="{% url 'register' %}">Create an Account</a></section>
+{% endif %}
+{% endblock %}

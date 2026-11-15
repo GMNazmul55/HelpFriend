@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Delete Job | Hasib_001613_JobPortal{% endblock %}
+{% block content %}
+<section class="form-box"><p class="eyebrow">Review before deleting</p><h1>Delete Job</h1><p class="muted">Are you sure you want to remove this listing?</p><div class="entry-details"><h2>{{ job.title }}</h2><p class="muted small">{{ job.category }} · {{ job.openings }} opening{{ job.openings|pluralize }}</p><p>This permanently deletes the job and its applications. This cannot be undone.</p></div><form method="post" class="actions">{% csrf_token %}<button class="button button-danger" type="submit">Delete Job</button><a class="button button-secondary" href="{% url 'dashboard' %}">Cancel</a></form></section>
+{% endblock %}

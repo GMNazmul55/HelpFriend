@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Edit Job | Hasib_001613_JobPortal{% endblock %}
+{% block content %}
+<section class="form-box wide-form"><p class="eyebrow">Recruiter workspace</p><h1>Edit Job</h1><p class="muted">Update the details of your job listing.</p><form method="post" enctype="multipart/form-data">{% csrf_token %}{% include 'partials/job_fields.html' %}<div class="actions"><button class="button" type="submit">Save Changes</button><a class="button button-secondary" href="{% url 'dashboard' %}">Cancel</a></div></form></section>
+{% endblock %}

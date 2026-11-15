@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Browse Jobs | Hasib_001613_JobPortal{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Opportunities</p><h1>Browse Jobs</h1><p class="muted">Find a role that fits your skills and ambitions.</p></div>{% if user.is_authenticated and user.user_type == 'RECRUITER' %}<a class="button" href="{% url 'job_create' %}">Post a Job</a>{% endif %}</div>
+<div class="search-panel">
+  <form method="get" class="search-form" role="search">
+    <label class="sr-only" for="job-search">Search jobs</label>
+    <input id="job-search" type="search" name="q" value="{{ query }}" placeholder="Search by role, skill or keyword">
+    {% if view_type == 'matched' %}<input type="hidden" name="view" value="matched">{% endif %}
+    <button class="button" type="submit">Search Jobs</button>
+  </form>
+</div>
+<div class="list-toolbar">
+  <nav class="tabs" aria-label="Job filters">
+    <a href="{% url 'job_list' %}{% if query %}?q={{ query|urlencode }}{% endif %}" {% if view_type != 'matched' %}aria-current="page"{% endif %}>All Jobs</a>
+    {% if show_skill_match %}<a href="?view=matched{% if query %}&amp;q={{ query|urlencode }}{% endif %}" {% if view_type == 'matched' %}aria-current="page"{% endif %}>Skill Matches</a>{% endif %}
+  </nav>
+  <span class="muted small">{{ jobs|length }} role{{ jobs|length|pluralize }}</span>
+</div>
+<div class="job-grid">
+  {% for job in jobs %}{% include 'partials/job_card.html' %}{% empty %}
+    <div class="empty-panel"><h2>No matching jobs</h2><p>{% if view_type == 'matched' %}Update your profile skills or browse all jobs.{% else %}Try another keyword or check back for new roles.{% endif %}</p><a class="button button-secondary" href="{% url 'job_list' %}">Browse All Jobs</a></div>
+  {% endfor %}
+</div>
+{% endblock %}

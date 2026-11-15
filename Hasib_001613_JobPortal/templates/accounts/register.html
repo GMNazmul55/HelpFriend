@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Create an Account | Hasib_001613_JobPortal{% endblock %}
+{% block content %}
+<section class="form-box auth-box"><p class="eyebrow">Get started</p><h1>Create an Account</h1><p class="muted">Find your next role or your next team member.</p><form method="post">{% csrf_token %}
+<div class="form-group"><label for="username">Username</label><input type="text" name="username" id="username" value="{{ request.POST.username }}" maxlength="150" autocomplete="username" required></div>
+<div class="form-group"><label for="display_name">Display Name <span class="optional">(optional)</span></label><input type="text" name="display_name" id="display_name" value="{{ request.POST.display_name }}" maxlength="150" autocomplete="name"></div>
+<div class="form-group"><label for="email">Email</label><input type="email" name="email" id="email" value="{{ request.POST.email }}" autocomplete="email" required></div>
+<div class="form-group"><label for="password">Password</label><input type="password" name="password" id="password" autocomplete="new-password" required></div>
+<div class="form-group"><label for="password2">Confirm Password</label><input type="password" name="password2" id="password2" autocomplete="new-password" required></div>
+<div class="form-group"><label for="user_type">Account Type</label><select id="user_type" name="user_type" required><option value="">Select your role</option><option value="JOBSEEKER" {% if request.POST.user_type == 'JOBSEEKER' %}selected{% endif %}>Job Seeker</option><option value="RECRUITER" {% if request.POST.user_type == 'RECRUITER' %}selected{% endif %}>Recruiter</option></select></div><button class="button full-width" type="submit">Create Account</button></form><p class="form-note">Already have an account? <a href="{% url 'login' %}">Login</a>.</p></section>
+{% endblock %}

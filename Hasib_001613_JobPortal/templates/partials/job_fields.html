@@ -1,0 +1,7 @@
+<div class="form-group"><label for="title">Job Title</label><input type="text" name="title" id="title" value="{{ job.title }}" maxlength="200" placeholder="e.g. Python Developer" required></div>
+<div class="form-columns"><div class="form-group"><label for="category">Category</label><input type="text" name="category" id="category" value="{{ job.category|default:"General" }}" maxlength="100" placeholder="e.g. IT" required></div>
+<div class="form-group"><label for="openings">Open Positions</label><input type="number" name="openings" id="openings" value="{{ job.openings|default:1 }}" min="1" required></div>
+</div><div class="form-group"><label for="skills">Required Skills</label><input type="text" name="skills" id="skills" value="{{ job.skills }}" placeholder="e.g. Python, Django, PostgreSQL" required><p class="field-hint">Separate skills with commas to match your job with candidates.</p></div>
+<div class="form-group"><label for="description">Job Description</label><textarea name="description" id="description" rows="6" placeholder="Describe the role, responsibilities and requirements" required>{{ job.description }}</textarea></div>
+{% if job.company_logo %}<div class="current-logo"><img src="{{ job.company_logo.url }}" alt="Current company logo"><span>Current company logo</span></div>{% endif %}
+<div class="form-group"><label for="company_logo">Company Logo <span class="optional">(optional)</span></label><input type="file" name="company_logo" id="company_logo" accept="image/*"></div>

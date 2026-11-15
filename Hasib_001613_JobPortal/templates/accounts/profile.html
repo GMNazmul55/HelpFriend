@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}My Profile | Hasib_001613_JobPortal{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Account</p><h1>My Profile</h1><p class="muted">Keep your details up to date.</p></div><a class="button button-secondary" href="{% url 'dashboard' %}">Back to Dashboard</a></div>
+<div class="profile-layout">
+  <aside class="account-panel"><span class="profile-avatar" aria-hidden="true">{{ user.username|first|upper }}</span><h2>{{ user.first_name|default:user.username }}</h2><span class="entry-type">{{ user.get_user_type_display }}</span><dl class="account-details"><dt>Username</dt><dd>{{ user.username }}</dd><dt>Display Name</dt><dd>{{ user.first_name|default:"Not set" }}</dd><dt>Email</dt><dd>{{ user.email }}</dd></dl></aside>
+  <section class="form-box profile-form">
+    <h2>{% if user.user_type == 'JOBSEEKER' %}Skills &amp; Resume{% else %}Company Information{% endif %}</h2><p class="muted">{% if user.user_type == 'JOBSEEKER' %}Help recruiters understand what you can do.{% else %}Introduce your company to job seekers.{% endif %}</p>
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    {% if user.user_type == 'JOBSEEKER' %}
+<div class="form-group"><label for="skills">Skills</label><textarea name="skills" id="skills" rows="4" placeholder="e.g. Python, Django, PostgreSQL" required>{{ profile.skills }}</textarea><p class="field-hint">Separate your skills with commas to help match you with jobs.</p></div>
+<div class="form-group"><label for="resume">Resume <span class="optional">(optional)</span></label><input type="file" name="resume" id="resume" accept=".pdf,.doc,.docx"><p class="field-hint">Upload a PDF or Word document.</p></div>
+{% if profile.resume %}<p class="current-file">Current resume: <a href="{{ profile.resume.url }}" target="_blank" rel="noopener">{{ profile.resume.name }}</a></p>{% else %}<p class="muted small">No resume uploaded yet.</p>{% endif %}
+    {% else %}
+<div class="form-group"><label for="company_name">Company Name</label><input type="text" name="company_name" id="company_name" value="{{ profile.company_name }}" maxlength="200" required></div>
+<div class="form-group"><label for="company_description">Company Description</label><textarea name="company_description" id="company_description" rows="4" placeholder="Tell job seekers about your company">{{ profile.company_description }}</textarea></div>
+{% endif %}
+    <div class="actions"><button class="button" type="submit">Save Changes</button><a class="button button-secondary" href="{% url 'dashboard' %}">Cancel</a></div></form>
+  </section>
+</div>
+{% endblock %}
