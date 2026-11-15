@@ -1,0 +1,21 @@
+{% extends 'quiz/base.html' %}
+{% block title %}Take Quiz | Hasib_001613_QuizApp{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Quiz session</p><h1>{{ quiz.title }}</h1><p class="muted">Choose one answer for each question.</p></div><a class="text-link small" href="{% url 'quiz:dashboard' %}">Back to Dashboard</a></div>
+{% if questions %}
+<section class="quiz-session">
+  <div class="quiz-progress-header" id="quizProgressHeader" hidden><span id="questionCounter">Question 1 of {{ questions|length }}</span><span class="muted" id="answeredCount">0 of {{ questions|length }} answered</span></div>
+  <div class="progress-track" id="quizProgress" role="progressbar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="{{ questions|length }}" aria-valuenow="1" hidden><div class="progress-fill" id="progressBar"></div></div>
+  <form method="post" id="quizForm">{% csrf_token %}
+    {% for q in questions %}
+    <fieldset class="question-card" data-index="{{ forloop.counter0 }}"><legend class="question-text">{{ forloop.counter }}. {{ q.question }}</legend><div class="options-list">
+      {% for opt in q.options %}<label class="option-label" for="opt_{{ opt.id }}"><input type="radio" name="question_{{ q.id }}" id="opt_{{ opt.id }}" value="{{ opt.id }}" required><span>{{ opt.option }}</span></label>{% endfor %}
+    </div></fieldset>
+    {% endfor %}
+    <p id="answerError" class="answer-error" role="alert" hidden></p>
+    <div class="quiz-navigation"><button class="button button-secondary" type="button" id="prevBtn" hidden>Previous</button><span class="navigation-spacer"></span><button class="button" type="button" id="nextBtn" hidden>Next Question</button><button class="button" type="submit" id="submitBtn">Submit Quiz</button></div>
+  </form>
+</section>
+{% else %}<div class="empty-panel"><h2>No questions available</h2><p>This quiz does not have any questions yet. Please choose another quiz.</p><a class="button" href="{% url 'quiz:dashboard' %}">Browse Quizzes</a></div>{% endif %}
+{% endblock %}
+{% block extra_js %}{% load static %}<script src="{% static 'quiz/js/quiz.js' %}" defer></script>{% endblock %}

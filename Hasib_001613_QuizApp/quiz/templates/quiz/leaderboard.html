@@ -1,0 +1,11 @@
+{% extends 'quiz/base.html' %}
+{% block title %}Leaderboard | Hasib_001613_QuizApp{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Standings</p><h1>Leaderboard</h1><p class="muted">Quiz attempts ranked by score, then by completion time.</p></div><a class="button button-secondary" href="{% url 'quiz:dashboard' %}">Back to Dashboard</a></div>
+<nav class="filter-tabs" aria-label="Filter leaderboard by quiz"><a href="{% url 'quiz:leaderboard' %}" {% if not selected_quiz %}aria-current="page"{% endif %}>All Quizzes</a>{% for quiz in quizzes %}<a href="{% url 'quiz:quiz_leaderboard' quiz.id %}" {% if selected_quiz == quiz %}aria-current="page"{% endif %}>{{ quiz.title }}</a>{% endfor %}</nav>
+<div class="section-heading"><h2>{% if selected_quiz %}{{ selected_quiz.title }}{% else %}All Quiz Attempts{% endif %}</h2><span class="muted small">{{ attempts|length }} attempt{{ attempts|length|pluralize }}</span></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Quiz leaderboard"><table><thead><tr><th scope="col">Rank</th><th scope="col">Participant</th><th scope="col">Institution</th><th scope="col">Class</th>{% if not selected_quiz %}<th scope="col">Quiz</th>{% endif %}<th scope="col" class="number">Score</th><th scope="col">Completed</th></tr></thead><tbody>
+{% for entry in attempts %}<tr {% if entry.participant.user == request.user %}class="your-row"{% endif %}><td><span class="rank-badge">{{ forloop.counter }}</span></td><td>{{ entry.participant.name }}{% if entry.participant.user == request.user %}<span class="you-label">You</span>{% endif %}<span class="detail">@{{ entry.participant.user.username }}</span></td><td>{{ entry.participant.institution }}</td><td>{{ entry.participant.classroom }}</td>{% if not selected_quiz %}<td>{{ entry.quiz.title }}</td>{% endif %}<td class="number">{{ entry.score }} / {{ entry.total_questions }}</td><td class="date">{{ entry.completed_at|date:"d M Y, H:i" }}</td></tr>
+{% empty %}<tr><td class="empty-state" colspan="{% if selected_quiz %}6{% else %}7{% endif %}">No attempts yet. <a href="{% url 'quiz:dashboard' %}">Choose a quiz to get started</a>.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

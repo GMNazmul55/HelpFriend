@@ -1,0 +1,10 @@
+{% extends 'quiz/base.html' %}
+{% block title %}Quiz Results | Hasib_001613_QuizApp{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">Your results</p><h1>Quiz Completed</h1><p class="muted">{{ attempt.quiz.title }}</p></div><a class="button button-secondary" href="{% url 'quiz:dashboard' %}">Back to Dashboard</a></div>
+<div class="result-summary"><section class="score-panel"><p class="eyebrow">Your score</p><div class="result-score">{{ attempt.score }}<span>/ {{ attempt.total_questions }}</span></div><p>Correct answers</p></section><section class="rank-panel"><p class="eyebrow">Current attempt rank</p><div class="result-rank">#{{ attempt.position }}</div><p class="muted">Among all attempts for this quiz.</p><a class="text-link" href="{% url 'quiz:quiz_leaderboard' attempt.quiz.id %}">Full leaderboard</a></section></div>
+<div class="section-heading"><h2>Top Attempts · {{ attempt.quiz.title }}</h2><a href="{% url 'quiz:take_quiz' attempt.quiz.id %}">Retake quiz</a></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Top quiz attempts"><table><thead><tr><th scope="col">Rank</th><th scope="col">Participant</th><th scope="col">Institution</th><th scope="col">Class</th><th scope="col" class="number">Score</th></tr></thead><tbody>
+{% for entry in leaderboard %}<tr {% if entry.participant == attempt.participant %}class="your-row"{% endif %}><td><span class="rank-badge">{{ forloop.counter }}</span></td><td>{{ entry.participant.name }}<span class="detail">@{{ entry.participant.user.username }}</span></td><td>{{ entry.participant.institution }}</td><td>{{ entry.participant.classroom }}</td><td class="number">{{ entry.score }} / {{ entry.total_questions }}</td></tr>{% empty %}<tr><td colspan="5" class="empty-state">No attempts recorded yet.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

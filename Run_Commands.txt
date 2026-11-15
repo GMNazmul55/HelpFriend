@@ -1,0 +1,102 @@
+HASIB 001613 - DJANGO PROJECT RUN COMMANDS
+=======================================
+Extract Hasib_001613_DjangoExam.zip first.
+Open terminal in the extracted Hasib_001613_DjangoExam folder.
+Run ONLY ONE project at a time (each uses default port 8000).
+Each project includes its original db.sqlite3 database.
+Python 3.12+ is recommended for these Django versions.
+
+============== Hasib_001613_ManageCash ==============
+
+WINDOWS CMD (open inside the extracted main folder)
+cd Hasib_001613_ManageCash
+py -m venv .venv
+.venv\Scripts\activate.bat
+python -m pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+WINDOWS POWERSHELL (open inside the extracted main folder)
+cd Hasib_001613_ManageCash
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe manage.py migrate
+.\.venv\Scripts\python.exe manage.py runserver
+
+UBUNTU / LINUX (open inside the extracted main folder)
+cd Hasib_001613_ManageCash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+BROWSER: http://127.0.0.1:8000/
+STOP SERVER: Ctrl+C
+
+IMPORTANT: Return to the extracted main folder before trying another project.
+
+============== Hasib_001613_JobPortal ==============
+
+WINDOWS CMD (open inside the extracted main folder)
+cd Hasib_001613_JobPortal
+py -m venv .venv
+.venv\Scripts\activate.bat
+python -m pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+WINDOWS POWERSHELL (open inside the extracted main folder)
+cd Hasib_001613_JobPortal
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe manage.py migrate
+.\.venv\Scripts\python.exe manage.py runserver
+
+UBUNTU / LINUX (open inside the extracted main folder)
+cd Hasib_001613_JobPortal
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+BROWSER: http://127.0.0.1:8000/
+STOP SERVER: Ctrl+C
+
+IMPORTANT: Return to the extracted main folder before trying another project.
+
+============== Hasib_001613_QuizApp ==============
+
+WINDOWS CMD (open inside the extracted main folder)
+cd Hasib_001613_QuizApp
+py -m venv .venv
+.venv\Scripts\activate.bat
+python -m pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+WINDOWS POWERSHELL (open inside the extracted main folder)
+cd Hasib_001613_QuizApp
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe manage.py migrate
+.\.venv\Scripts\python.exe manage.py runserver
+
+UBUNTU / LINUX (open inside the extracted main folder)
+cd Hasib_001613_QuizApp
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+BROWSER: http://127.0.0.1:8000/
+STOP SERVER: Ctrl+C
+
+IMPORTANT: Return to the extracted main folder before trying another project.
+
+NOTE: The original project UI, code logic, migration files and SQLite data are retained.
+The .venv/ environments and .git/ metadata are not copied; they are machine-specific.
+Create a new .venv using the commands above, rather than trying to use someone else's virtual environment.
+These settings are for local development, not production deployment.

@@ -1,0 +1,64 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Hasib_001613_QuizApp{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'quiz/css/styles.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="{% if user.is_authenticated %}app-page{% else %}auth-page{% endif %}">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="app-layout">
+    <header class="site-header">
+      <a class="brand" href="{% url 'quiz:dashboard' %}"><span class="brand-mark" aria-hidden="true">q</span><span class="brand-name">Hasib_001613_QuizApp</span></a>
+      <nav aria-label="Main navigation">
+        {% if user.is_authenticated %}<p class="nav-caption">Workspace</p>{% endif %}
+        <div class="nav-links">
+          {% if user.is_authenticated %}
+            <a href="{% url 'quiz:dashboard' %}" {% if request.resolver_match.url_name == 'dashboard' or request.resolver_match.url_name == 'take_quiz' or request.resolver_match.url_name == 'results' %}aria-current="page"{% endif %}>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="5" height="5" rx="1"/><rect x="12" y="3" width="5" height="5" rx="1"/><rect x="3" y="12" width="5" height="5" rx="1"/><rect x="12" y="12" width="5" height="5" rx="1"/></svg>
+              Dashboard
+            </a>
+            <a href="{% url 'quiz:leaderboard' %}" {% if request.resolver_match.url_name == 'leaderboard' or request.resolver_match.url_name == 'quiz_leaderboard' %}aria-current="page"{% endif %}>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14m-4-3 4 3-4 3M17 14H3m4-3-4 3 4 3"/></svg>
+              Leaderboard
+            </a>
+            <a href="{% url 'quiz:profile' %}" {% if request.resolver_match.url_name == 'profile' %}aria-current="page"{% endif %}>
+              <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="6" r="3"/><path d="M4 17v-2a6 6 0 0 1 12 0v2"/></svg>
+              Profile
+            </a>
+            {% if user.is_staff %}<a href="{% url 'admin:index' %}" target="_blank" rel="noopener"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 3 5v5c0 4 7 8 7 8s7-4 7-8V5zM7 10l2 2 4-4"/></svg>Admin Panel</a>{% endif %}
+          {% else %}
+            <a href="{% url 'quiz:login' %}" {% if request.resolver_match.url_name == 'login' %}aria-current="page"{% endif %}>Login</a>
+            <a href="{% url 'quiz:register' %}" {% if request.resolver_match.url_name == 'register' %}aria-current="page"{% endif %}>Register</a>
+          {% endif %}
+        </div>
+      </nav>
+      {% if user.is_authenticated %}
+        <div class="sidebar-account">
+          <div class="account-name"><span class="avatar" aria-hidden="true">{{ user.username|first|upper }}</span><span>{{ user.username }}<small>{% if user.is_staff %}Staff account{% else %}Participant{% endif %}</small></span></div>
+          <a class="logout-link" href="{% url 'quiz:logout' %}">Log out <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 12 12 4M4 4h8v8"/></svg></a>
+        </div>
+      {% endif %}
+    </header>
+    <div class="workspace">
+      {% if user.is_authenticated %}
+        <div class="workspace-bar"><span><span class="status-dot" aria-hidden="true"></span>Quiz workspace</span><span class="workspace-label">Participant</span></div>
+      {% endif %}
+      <main class="container main-content" id="main">
+        {% if messages %}
+          <div class="messages">
+            {% for message in messages %}
+              <div class="message {{ message.tags }}" role="{% if message.tags == 'error' %}alert{% else %}status{% endif %}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </div>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

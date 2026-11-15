@@ -1,0 +1,27 @@
+{% extends 'quiz/base.html' %}
+{% block title %}Dashboard | Hasib_001613_QuizApp{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><p class="eyebrow">Your workspace</p><h1>Welcome, {{ participant.name }}</h1><p class="muted">{{ participant.institution }} · Class {{ participant.classroom }}</p></div>
+  <a class="button button-secondary" href="{% url 'quiz:profile' %}">Edit Profile</a>
+</div>
+<div class="summary">
+  <div class="summary-box"><h2>Available Quizzes</h2><p>{{ quiz_data|length }}</p></div>
+  <div class="summary-box"><h2>Quiz Attempts</h2><p>{{ total_attempts }}</p></div>
+  <div class="summary-box"><h2>Average Score</h2><p>{{ avg_score|floatformat:1 }}</p><span class="metric-note">Correct answers per attempt</span></div>
+</div>
+<div class="section-heading"><h2>Explore Quizzes</h2><a href="{% url 'quiz:leaderboard' %}">View leaderboard</a></div>
+<div class="quiz-grid">
+  {% for item in quiz_data %}
+    <article class="quiz-card">
+      <div class="quiz-card-top"><span class="quiz-symbol" aria-hidden="true">Q</span><span class="entry-type">{% if item.has_taken %}Completed{% else %}Not started{% endif %}</span></div>
+      <h3>{{ item.quiz.title }}</h3>
+      <p class="quiz-description">{{ item.quiz.description }}</p>
+      <dl class="quiz-details"><div><dt>Questions</dt><dd>{{ item.total_questions }}</dd></div>{% if item.has_taken %}<div><dt>Best Score</dt><dd>{{ item.best_score }} / {{ item.total_questions }}</dd></div><div><dt>Best Attempt Rank</dt><dd>#{{ item.position }}</dd></div>{% endif %}</dl>
+      <div class="quiz-card-footer"><a class="text-link" href="{% url 'quiz:quiz_leaderboard' item.quiz.id %}">Leaderboard</a><a class="button" href="{% url 'quiz:take_quiz' item.quiz.id %}">{% if item.has_taken %}Retake Quiz{% else %}Start Quiz{% endif %}</a></div>
+    </article>
+  {% empty %}
+    <div class="empty-panel"><h3>No quizzes yet</h3><p>Available quizzes will appear here when they are published.</p>{% if user.is_staff %}<a class="button" href="/admin/quiz/quiz/add/">Add a Quiz</a>{% endif %}</div>
+  {% endfor %}
+</div>
+{% endblock %}

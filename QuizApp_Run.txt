@@ -1,0 +1,27 @@
+UBUNTU
+
+cd ~/project/Hasib_001613_QuizApp
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+
+WINDOWS CMD
+
+cd /d "%USERPROFILE%\project\Hasib_001613_QuizApp"
+py -m venv .venv
+.venv\Scripts\activate.bat
+python -m pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+
+
+WINDOWS POWERSHELL
+
+Set-Location "$env:USERPROFILE\project\Hasib_001613_QuizApp"
+py -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe manage.py migrate
+.\.venv\Scripts\python.exe manage.py runserver
